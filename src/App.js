@@ -1,8 +1,17 @@
 import './App.css';
 
-const Cell = ({ id }) => {
+const Cell = ({
+  id,
+  row,
+  column,
+}) => {
+  const classList = [
+    'cell',
+    `row-${row}`,
+    `col-${column}`,
+  ]
   return (
-    <div className='cell'>
+    <div className={classList.join(' ').trim()}>
       <span>{id}</span>
     </div>
   )
@@ -33,8 +42,8 @@ const Sudoku = () => {
   const grid = createGrid();
   return (
     <div className='sudoku'>
-      {Object.keys(grid).map((cell) => (
-        <Cell key={grid[cell].id} {...grid[cell]} />
+      {grid.map((cell) => (
+        <Cell key={cell.id} {...cell} />
       ))}
     </div>
   )

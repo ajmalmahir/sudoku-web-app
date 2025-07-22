@@ -1,38 +1,44 @@
-.App {
+:root {
+  --background: black;
+  --foreground: rgba(0, 128, 0, 0.6);
+  --cell-size: 60px;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: 'Space Mono', monospace;
+  background: var(--background);
+  color: #5da75d;
+  font-size: 16px;
+}
+
+.sudoku {
+  display: flex;
+  flex-flow: row wrap;
+  width: calc((var(--cell-size) + 2px) * 9 + 6px);
+  border: solid 4px var(--foreground);
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--cell-size);
+  height: var(--cell-size);
+  border: solid 1px var(--foreground);
+  position: relative;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.cell.col-3,
+.cell.col-6 {
+  border-right-width: 4px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.cell.row-3,
+.cell.row-6 {
+  border-bottom-width: 4px;
 }
