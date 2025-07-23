@@ -1,6 +1,6 @@
 :root {
-  --background: black;
-  --foreground: rgba(0, 128, 0, 0.6);
+  --background: whitesmoke;
+  --foreground: black;
   --cell-size: 60px;
 }
 
@@ -11,8 +11,8 @@ body {
   height: 100vh;
   font-family: 'Space Mono', monospace;
   background: var(--background);
-  color: #5da75d;
-  font-size: 16px;
+  color: black;
+  font-size: 24px;
 }
 
 .sudoku {
