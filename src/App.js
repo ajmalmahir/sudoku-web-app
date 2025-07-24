@@ -2,6 +2,7 @@ import './App.css';
 import { sudokuPuzzles } from './sudokuPuzzles';
 
 const selectedPuzzle = sudokuPuzzles.easy[0].puzzle;
+const formatCellValue = (value) => (value === 0 ? null : value);
 
 const Cell = ({
   id,
@@ -36,7 +37,7 @@ const createGrid = (puzzle) => {
           column: index + 1,
           row: rowIndex + 1,
           block: getCellBlock(rowIndex + 1, index + 1),
-          initialValue: puzzle ? puzzle[rowIndex][index] : 0,
+          initialValue: puzzle ? formatCellValue(puzzle[rowIndex][index]) : null,
         }))
     })
     .flat()
