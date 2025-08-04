@@ -1,13 +1,15 @@
 import './App.css';
+import { useState } from 'react';
 
 import Cell from './Cell'
 import createGrid from './utils';
 import { sudokuPuzzles } from './sudokuPuzzles';
 
 const selectedPuzzle = sudokuPuzzles.easy[0].puzzle;
+const grid = createGrid(selectedPuzzle)
 
-const Sudoku = ({ puzzle }) => {
-  const grid = createGrid(puzzle);
+const Sudoku = (props) => {
+  const [grid, setGrid] = useState(props.grid)
   return (
     <div className='sudoku'>
       {grid.map((cell) => (
@@ -19,7 +21,7 @@ const Sudoku = ({ puzzle }) => {
 
 function App() {
   return (
-    <Sudoku puzzle={selectedPuzzle} />
+    <Sudoku grid={grid} />
   );
 }
 
