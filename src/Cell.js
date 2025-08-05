@@ -10,7 +10,10 @@ const Cell = ({
     `col-${column}`,
   ]
   return (
-    <div className={classList.join(' ').trim()}>
+    <div 
+      className={classList.join(' ').trim()} 
+      tabIndex="0" // makes div focusable
+    >
       <span>{initialValue}</span>
     </div>
   )

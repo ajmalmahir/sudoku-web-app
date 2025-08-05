@@ -1,5 +1,4 @@
 import './App.css';
-import { useState } from 'react';
 
 import Cell from './Cell'
 import createGrid from './utils';
@@ -9,7 +8,6 @@ const selectedPuzzle = sudokuPuzzles.easy[0].puzzle;
 const grid = createGrid(selectedPuzzle)
 
 const Sudoku = (props) => {
-  const [grid, setGrid] = useState(props.grid)
   return (
     <div className='sudoku'>
       {grid.map((cell) => (

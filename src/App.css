@@ -33,6 +33,11 @@ body {
   text-align: center;
 }
 
+.cell:focus {
+  outline: none;
+  background: rgb(211 211 211 / 60%)
+}
+
 .cell.col-3,
 .cell.col-6 {
   border-right-width: 4px;
