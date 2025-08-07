@@ -12,7 +12,8 @@ body {
   font-family: 'Space Mono', monospace;
   background: var(--background);
   color: black;
-  font-size: 24px;
+  font-size: 36px;
+  font-weight: 500;
 }
 
 .sudoku {
@@ -36,6 +37,10 @@ body {
 .cell:focus {
   outline: none;
   background: rgb(211 211 211 / 60%)
+}
+
+.cell.editable { 
+  color: rgb(115, 147, 179)
 }
 
 .cell.col-3,

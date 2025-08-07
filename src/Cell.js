@@ -21,6 +21,7 @@ const Cell = ({
     'cell',
     `row-${row}`,
     `col-${column}`,
+    isPrefilled ? 'prefilled' : 'editable',
   ]
   return (
     <div 
