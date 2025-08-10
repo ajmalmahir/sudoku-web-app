@@ -4,6 +4,14 @@ const getCellBlock = (row, col) => {
 
 const formatCellValue = (value) => (value === 0 ? null : value);
 
+const getCellMates = (grid, { id, block, row, column }, property = 'id') => {
+  return grid
+    .filter((cell) => {
+      return cell.id !== id && (cell.row === row || cell.column === column || cell.block === block)
+    })
+    .map((cell) => cell[property])
+}
+
 const createGrid = (puzzle) => {
   const rowNames = 'abcdefghi'
   return [...rowNames]
@@ -21,4 +29,4 @@ const createGrid = (puzzle) => {
     .flat()
 }
 
-export default createGrid;
+export { getCellMates, createGrid };
