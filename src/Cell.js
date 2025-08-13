@@ -1,26 +1,24 @@
-import { useState } from "react";
-
 const Cell = ({
   id,
   row,
   column,
   initialValue,
+  value,
+  onValueChange,
   cellMates,
   isActive,
   isHighlighted,
   highlightMates,
   clearHighlights,
 }) => {
-  const [value, setValue] = useState(initialValue)
   const isPrefilled = initialValue !== null;
 
   const handleKeyDown = (e) => {
     if (isPrefilled) return;
-
     if (/[1-9]/.test(e.key)) {
-      setValue(e.key)
+      onValueChange(id, e.key)
     } else if (e.key === "Backspace" || e.key === "Delete") {
-      setValue(null)
+      onValueChange(id, null)
     }
   }
 

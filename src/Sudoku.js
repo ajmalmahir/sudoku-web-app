@@ -4,11 +4,27 @@ import Cell from './Cell'
 import { getCellMates } from './utils';
 
 const Sudoku = (props) => {
-  const [grid, setGrid] = useState(props.grid)
+  const [puzzleGrid, setPuzzleGrid] = useState(
+    props.puzzle.map(cell => ({
+      ...cell,
+      currentValue: cell.initialValue,
+      isValid: true
+    }))
+  );
+
+  const updateCellValue = (cellId, newValue) => {
+    setPuzzleGrid(prevGrid =>
+      prevGrid.map(cell => 
+        cell.id === cellId
+        ? { ...cell, currentValue: newValue }
+        : cell
+      )
+    );
+  };
 
   const highlightMates = (cellMates) => {
-    setGrid(
-      grid.map((cell) => {
+    setPuzzleGrid(
+      puzzleGrid.map((cell) => {
         if (cellMates.includes(cell.id)) {
           return {
             ...cell,
@@ -24,8 +40,8 @@ const Sudoku = (props) => {
   }
 
   const clearHighlights = () => {
-    setGrid(
-      grid.map((cell) => ({
+    setPuzzleGrid(
+      puzzleGrid.map((cell) => ({
         ...cell,
         isHighlighted: false
       }))
@@ -34,12 +50,14 @@ const Sudoku = (props) => {
 
   return (
     <div className='sudoku'>
-      {grid.map((cell) => (
+      {puzzleGrid.map((cell) => (
         <Cell 
           key={cell.id} 
+          value={cell.currentValue}
+          onValueChange={updateCellValue}
           highlightMates={highlightMates}
           clearHighlights={clearHighlights}
-          cellMates={getCellMates(grid, cell)}
+          cellMates={getCellMates(puzzleGrid, cell)}
           {...cell} 
         />
       ))}
