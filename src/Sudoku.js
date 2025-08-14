@@ -11,12 +11,23 @@ const Sudoku = (props) => {
       isValid: true
     }))
   );
+  
+  const validateCell = (cellId, value, solutionGrid = props.solution) => {
+    if (value === null) return true;
+
+    const solutionCell = solutionGrid.find(cell => cell.id === cellId);
+    return parseInt(value) === solutionCell.initialValue;
+  }
 
   const updateCellValue = (cellId, newValue) => {
     setPuzzleGrid(prevGrid =>
       prevGrid.map(cell => 
         cell.id === cellId
-        ? { ...cell, currentValue: newValue }
+        ? { 
+          ...cell, 
+          currentValue: newValue,
+          isValid: validateCell(cellId, newValue, props.solution)
+        }
         : cell
       )
     );

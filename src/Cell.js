@@ -4,6 +4,7 @@ const Cell = ({
   column,
   initialValue,
   value,
+  isValid,
   onValueChange,
   cellMates,
   isActive,
@@ -36,7 +37,8 @@ const Cell = ({
     `col-${column}`,
     isPrefilled ? 'prefilled' : 'editable',
     isHighlighted && 'highlight',
-    isActive && 'is-active'
+    isActive && 'is-active',
+    !isValid && 'invalid',
   ]
   return (
     <div 

@@ -47,6 +47,10 @@ body {
   color: rgb(115, 147, 179)
 }
 
+.cell.invalid {
+  color: rgb(233, 116, 81);
+}
+
 .cell.col-3,
 .cell.col-6 {
   border-right-width: 4px;
