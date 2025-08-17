@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 import Cell from './Cell'
 import { getCellMates } from './utils';
@@ -11,12 +11,17 @@ const Sudoku = (props) => {
       isValid: true
     }))
   );
-  
-  const validateCell = (cellId, value, solutionGrid = props.solution) => {
-    if (value === null) return true;
 
-    const solutionCell = solutionGrid.find(cell => cell.id === cellId);
-    return parseInt(value) === solutionCell.initialValue;
+  const solutionMap = useMemo(() => {
+    return props.solution.reduce((map, cell) => {
+      map[cell.id] = cell.initialValue;
+      return map;
+    }, {});
+  }, [props.solution])
+
+  const validateCell = (cellId, value) => {
+    if (value === null) return true;
+    return parseInt(value) === solutionMap[cellId];
   }
 
   const updateCellValue = (cellId, newValue) => {
