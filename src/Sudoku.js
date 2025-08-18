@@ -19,23 +19,33 @@ const Sudoku = (props) => {
     }, {});
   }, [props.solution])
 
-  const validateCell = (cellId, value) => {
-    if (value === null) return true;
-    return parseInt(value) === solutionMap[cellId];
+  const validateCell = (cellId, currentValue) => {
+    if (currentValue === null) return true;
+    return parseInt(currentValue) === solutionMap[cellId];
   }
 
   const updateCellValue = (cellId, newValue) => {
-    setPuzzleGrid(prevGrid =>
-      prevGrid.map(cell => 
+    setPuzzleGrid(currentGrid => {
+      const numericValue = newValue === null ? null : parseInt(newValue, 10);
+
+      const newGrid = currentGrid.map(cell => 
         cell.id === cellId
-        ? { 
-          ...cell, 
-          currentValue: newValue,
-          isValid: validateCell(cellId, newValue, props.solution)
-        }
-        : cell
-      )
-    );
+          ? {
+            ...cell,
+            currentValue: numericValue,
+            isValid: validateCell(cellId, numericValue)
+            }
+          : cell
+      );
+
+      if (numericValue) {
+        const matches = newGrid
+          .filter(cell => cell.id !== cellId && cell.currentValue === numericValue)
+          .map(cell => cell.id)
+        console.log(`matching cells for ${cellId}: ${matches}`)
+      }
+      return newGrid;
+    });
   };
 
   const highlightMates = (cellMates) => {
@@ -69,7 +79,7 @@ const Sudoku = (props) => {
       {puzzleGrid.map((cell) => (
         <Cell 
           key={cell.id} 
-          value={cell.currentValue}
+          currentValue={cell.currentValue}
           onValueChange={updateCellValue}
           highlightMates={highlightMates}
           clearHighlights={clearHighlights}

@@ -3,11 +3,10 @@ const Cell = ({
   row,
   column,
   initialValue,
-  value,
+  currentValue,
   isValid,
   onValueChange,
   cellMates,
-  isActive,
   isHighlighted,
   highlightMates,
   clearHighlights,
@@ -37,7 +36,6 @@ const Cell = ({
     `col-${column}`,
     isPrefilled ? 'prefilled' : 'editable',
     isHighlighted && 'highlight',
-    isActive && 'is-active',
     !isValid && 'invalid',
   ]
   return (
@@ -48,7 +46,7 @@ const Cell = ({
       onBlur={handleBlur}
       tabIndex="0"
     >
-      <span>{value}</span>
+      <span>{currentValue}</span>
     </div>
   )
 }
