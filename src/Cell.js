@@ -9,6 +9,7 @@ const Cell = ({
   cellMates,
   isHighlighted,
   highlightMates,
+  highlightSameValues,
   clearHighlights,
 }) => {
   const isPrefilled = initialValue !== null;
@@ -18,16 +19,17 @@ const Cell = ({
     if (/[1-9]/.test(e.key)) {
       onValueChange(id, e.key)
     } else if (e.key === "Backspace" || e.key === "Delete") {
-      onValueChange(id, null)
+      onValueChange(id, null);
     }
   }
 
   const handleFocus = () => {
-    highlightMates(cellMates)
+    highlightMates(cellMates);
+    highlightSameValues(id, currentValue);
   }
 
   const handleBlur = () => {
-    clearHighlights()
+    clearHighlights();
   }
 
   const classList = [

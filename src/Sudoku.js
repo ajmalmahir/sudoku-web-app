@@ -39,31 +39,33 @@ const Sudoku = (props) => {
       );
 
       if (numericValue) {
-        const matches = newGrid
-          .filter(cell => cell.id !== cellId && cell.currentValue === numericValue)
-          .map(cell => cell.id)
-        console.log(`matching cells for ${cellId}: ${matches}`)
+        highlightSameValues(cellId, numericValue);
       }
       return newGrid;
     });
   };
 
   const highlightMates = (cellMates) => {
-    setPuzzleGrid(
-      puzzleGrid.map((cell) => {
-        if (cellMates.includes(cell.id)) {
-          return {
-            ...cell,
-            isHighlighted: true,
-          }
-        }
-        return {
-          ...cell,
-          isHighlighted: false
-        }
-      })
+    setPuzzleGrid(currentGrid =>
+      currentGrid.map((cell) => ({
+        ...cell,
+        isHighlighted: cell.isHighlighted || cellMates.includes(cell.id)
+      }))
     )
   }
+
+  const highlightSameValues = (cellId, value) => {
+    setPuzzleGrid(currentGrid => {
+      if (!value) {
+        return currentGrid.map(cell => ({ ...cell, isHighlighted: cell.isHighlighted}))
+      }
+
+      return currentGrid.map(cell => ({
+        ...cell,
+        isHighlighted: cell.isHighlighted || (cell.currentValue === value && cell.id !== cellId)
+      }));
+    });
+  };
 
   const clearHighlights = () => {
     setPuzzleGrid(
@@ -82,6 +84,7 @@ const Sudoku = (props) => {
           currentValue={cell.currentValue}
           onValueChange={updateCellValue}
           highlightMates={highlightMates}
+          highlightSameValues={highlightSameValues}
           clearHighlights={clearHighlights}
           cellMates={getCellMates(puzzleGrid, cell)}
           {...cell} 
