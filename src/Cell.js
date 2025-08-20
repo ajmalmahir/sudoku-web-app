@@ -7,7 +7,8 @@ const Cell = ({
   isValid,
   onValueChange,
   cellMates,
-  isHighlighted,
+  isMateHighlighted,
+  isSameValueHighlighted,
   highlightMates,
   highlightSameValues,
   clearHighlights,
@@ -37,7 +38,8 @@ const Cell = ({
     `row-${row}`,
     `col-${column}`,
     isPrefilled ? 'prefilled' : 'editable',
-    isHighlighted && 'highlight',
+    isMateHighlighted && 'highlight-mates',
+    isSameValueHighlighted && 'highlight-same',
     !isValid && 'invalid',
   ]
   return (

@@ -39,8 +39,13 @@ body {
   background: rgb(169 169 169 / 80%)
 }
 
-.cell.highlight {
+.cell.highlight-mates{
   background: rgb(169 169 169 / 40%)
+}
+
+.cell.highlight-same {
+  outline: none;
+  background: rgb(169 169 169 / 80%)
 }
 
 .cell.editable { 
