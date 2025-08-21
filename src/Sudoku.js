@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 
+import InputPad from './InputPad'
 import Cell from './Cell'
 import { getCellMates } from './utils';
 
@@ -79,20 +80,37 @@ const Sudoku = (props) => {
     )
   }
 
+  const [selectedCellId, setSelectedCellId] = useState(null);
+
+  const handleCellSelect = (cellId) => {
+    setSelectedCellId(cellId);
+  };
+
+  const handlePadInput = (value) => {
+    if (selectedCellId === null) return;
+    updateCellValue(selectedCellId, value);
+  }
+
   return (
-    <div className='sudoku'>
-      {puzzleGrid.map((cell) => (
-        <Cell 
-          key={cell.id} 
-          currentValue={cell.currentValue}
-          onValueChange={updateCellValue}
-          highlightMates={highlightMates}
-          highlightSameValues={highlightSameValues}
-          clearHighlights={clearHighlights}
-          cellMates={getCellMates(puzzleGrid, cell)}
-          {...cell} 
-        />
-      ))}
+    <div className='sudoku-and-pad'>
+      <div className='sudoku'>
+        {puzzleGrid.map((cell) => (
+          <Cell 
+            key={cell.id} 
+            currentValue={cell.currentValue}
+            onValueChange={updateCellValue}
+            onSelect={handleCellSelect}
+            isSelected={cell.id === selectedCellId}
+            highlightMates={highlightMates}
+            highlightSameValues={highlightSameValues}
+            clearHighlights={clearHighlights}
+            cellMates={getCellMates(puzzleGrid, cell)}
+            {...cell} 
+          />
+        ))}
+      </div>
+
+      <InputPad onInput={handlePadInput} />
     </div>
   )
 }

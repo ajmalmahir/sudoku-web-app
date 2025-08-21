@@ -12,6 +12,8 @@ const Cell = ({
   highlightMates,
   highlightSameValues,
   clearHighlights,
+  onSelect,
+  isSelected,
 }) => {
   const isPrefilled = initialValue !== null;
 
@@ -24,7 +26,12 @@ const Cell = ({
     }
   }
 
+  const handleClick= () => {
+    if (onSelect) onSelect(id);
+  }
+
   const handleFocus = () => {
+    if (onSelect) onSelect(id);
     highlightMates(cellMates);
     highlightSameValues(id, currentValue);
   }
@@ -41,6 +48,7 @@ const Cell = ({
     isMateHighlighted && 'highlight-mates',
     isSameValueHighlighted && 'highlight-same',
     !isValid && 'invalid',
+    isSelected && 'selected',
   ]
   return (
     <div 
@@ -48,6 +56,7 @@ const Cell = ({
       onKeyDown={handleKeyDown}
       onFocus={handleFocus}
       onBlur={handleBlur}
+      onClick={handleClick}
       tabIndex="0"
     >
       <span>{currentValue}</span>
