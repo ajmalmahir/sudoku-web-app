@@ -1,32 +1,47 @@
-const getCellBlock = (row, col) => {
-  return Math.ceil(col / 3) + (Math.ceil(row / 3) -1) * 3
-}
-
 const formatCellValue = (value) => (value === 0 ? null : value);
 
-const getCellMates = (grid, { id, block, row, column }, property = 'id') => {
-  return grid
-    .filter((cell) => {
-      return cell.id !== id && (cell.row === row || cell.column === column || cell.block === block)
-    })
-    .map((cell) => cell[property])
+const getCellBlock = (row, col) => {
+  return Math.ceil(col / 3) + (Math.ceil(row / 3) -1) * 3;
 }
+
+const findCellMates = (grid, cellId) => {
+  const selected = grid.find(cell => cell.id === cellId);
+  if (!selected) return new Set();
+  return new Set(
+    grid.filter(
+      cell => cell.id !== selected.id &&
+      (
+        cell.row === selected.row || 
+        cell.column === selected.column || 
+        cell.block === selected.block ||
+        (cell.currentValue && cell.currentValue === selected.currentValue)
+      )
+    )
+    .map(cell => cell.id)
+  );
+};
 
 const createGrid = (puzzle) => {
-  const rowNames = 'abcdefghi'
-  return [...rowNames]
-    .map((row, rowIndex) => {
-      return Array(9)
-        .fill('')
-        .map((item, index) => ({
-          id: row + (index + 1),
-          column: index + 1,
-          row: rowIndex + 1,
-          block: getCellBlock(rowIndex + 1, index + 1),
-          initialValue: puzzle ? formatCellValue(puzzle[rowIndex][index]) : null,
-        }))
-    })
-    .flat()
+  const grid = Array.from({ length: 81 }, (_, i) => {
+    const row = Math.floor(i / 9);
+    const col = i % 9;
+    return {
+      id: String.fromCharCode(97 + row) + (col + 1),
+      row: row + 1,
+      column: col + 1,
+      block: getCellBlock(row + 1, col + 1),
+      initialValue: puzzle ? formatCellValue(puzzle[row][col]) : null,
+      currentValue: puzzle ? formatCellValue(puzzle[row][col]) : null,
+    };
+  });
+
+  // grid.forEach(cell => {
+  //   cell.cellMates = grid
+  //     .filter(c => c.id !== cell.id && (c.row === cell.row || c.column === cell.column || c.block === cell.block))
+  //     .map(c => c.id);
+  // });
+
+  return grid;
 }
 
-export { getCellMates, createGrid };
+export {findCellMates, createGrid};

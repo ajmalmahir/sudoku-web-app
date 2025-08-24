@@ -1,9 +1,10 @@
+/* global variables */
 :root {
   --background: whitesmoke;
-  --foreground: black;
-  --cell-size: 60px;
+  --foreground: #333;
 }
 
+/* global styling */
 body {
   display: flex;
   align-items: center;
@@ -15,88 +16,71 @@ body {
   margin: 0;
 }
 
-.sudoku {
+/* sudoku board and cells */
+.sudoku-board {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
-  width: 90vmin;
-  max-width: 600px;
+  width: min(90vmin, 600px);
   aspect-ratio: 1 / 1;
   margin: auto;
   border: solid 4px var(--foreground);
-  box-sizing: border-box;
 }
 
 .cell {
-  border: 1px solid #333;
+  border: 1px solid var(--foreground);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: clamp(1rem, 2.5vmin, 2rem);
+  font-size: clamp(2rem, 5vmin, 4rem);
 }
+
+.cell.col-3, .cell.col-6 { border-right-width: 4px; }
+.cell.row-3, .cell.row-6 { border-bottom-width: 4px; }
 
 .cell:focus {
-  outline: none;
-  background: rgb(169 169 169 / 80%)
+  background: rgb(169 169 169);
 }
 
-.cell.highlight-mates{
-  background: rgb(169 169 169 / 40%)
+.cell.editable {
+  color: rgb(74, 108, 140);
 }
 
-.cell.highlight-same {
-  outline: none;
-  background: rgb(169 169 169 / 80%)
-}
-
-.cell.editable { 
-  color: rgb(115, 147, 179)
-}
-
-.cell.invalid {
+.cell.incorrect {
   color: rgb(233, 116, 81);
+  background-color: rgb(255, 210, 200);
 }
 
-.cell.col-3,
-.cell.col-6 {
-  border-right-width: 4px;
+.cell.highlight-mates {
+  background: rgb(169 169 169 / 45%);
 }
 
-.cell.row-3,
-.cell.row-6 {
-  border-bottom-width: 4px;
-}
-
-.sudoku-and-pad {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
+/* input pad, pad grid and pad button */
 .input-pad {
-  width: 90vmin;
-  max-width: 600px;
-  margin: 12px;
-  border: solid 4px var(--foreground);
+  width: min(40vmin, 200px);
   box-sizing: border-box;
+  padding: 6px;
+  margin: 12px auto;
 }
 
 .pad-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-auto-rows: 56px;
-  gap: 1px;
-  background: #000;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
   width: 100%;
+  aspect-ratio: 3 / 4;
+  border: solid 2px var(--foreground);
+  box-sizing: border-box;
 }
 
 .pad-button {
-  border: 1px solid #333;
+  border: 1px solid var(--foreground);
   font-size: 1.5rem;
   color: var(--foreground);
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  user-select: none;
-  outline: none;
+}
+
+.clear-button {
+  grid-column: span 3;
 }

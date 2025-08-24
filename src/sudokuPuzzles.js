@@ -1,4 +1,3 @@
-// sudokuPuzzles.js - Collection of Sudoku puzzles
 export const sudokuPuzzles = {
   easy: [
     {

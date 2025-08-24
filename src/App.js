@@ -1,15 +1,139 @@
 import './App.css';
-import Sudoku from './Sudoku';
-import { sudokuPuzzles } from './sudokuPuzzles';
-import { createGrid } from './utils';
-
-const puzzle = sudokuPuzzles.easy[0].puzzle;
-const solution = sudokuPuzzles.easy[0].solution
+import Sudoku from './Sudoku'
+import Stopwatch from './Stopwatch';
+import InputPad from './InputPad';
+import { useState, useMemo } from 'react';
+import { sudokuPuzzles } from './SudokuPuzzles';
+import { findCellMates, createGrid } from './utils';
 
 function App() {
-  return (
-    <Sudoku puzzle={createGrid(puzzle)} solution={createGrid(solution)} />
+
+  const puzzle = sudokuPuzzles.easy[0].puzzle;
+  const solution = createGrid(sudokuPuzzles.easy[0].solution);
+
+  const [selectedCellId, setSelectedCellId] = useState(null);
+  const [grid, setGrid] = useState(
+    () => createGrid(puzzle).map(cell => ({
+      ...cell,
+      isIncorrect: false,
+      isMateHighlighted: false,
+      isSameValueHighlighted: false,
+    }))
   );
+
+  const handleCellSelect = (cellId) => {
+    setSelectedCellId(cellId);
+  };
+
+  const solutionMap = useMemo(() => {
+    return solution.reduce((map, cell) => {
+      map[cell.id] = cell.initialValue
+      return map;
+    }, {});
+  }, [solution])
+
+  const validateCell = (cellId, value) => {
+    if (value == null) return null; // not answered yet
+    return solutionMap[cellId] !== value;
+  }
+
+  const highlightMates = (cellId) => {
+    const mates = findCellMates(grid, cellId);
+    setGrid(currentGrid => 
+      currentGrid.map((cell) => ({
+        ...cell,
+        isMateHighlighted: mates.has(cell.id)
+      }))
+    );
+  };
+
+  const clearHighlights = () => {
+    setGrid(
+      grid.map((cell) => ({
+        ...cell,
+        isMateHighlighted: false,
+        isSameValueHighlighted: false,
+      }))
+    )
+  }
+
+  const highlightSameValues = (cellId, currentValue) => {
+    setGrid(currentGrid => {
+      if (!currentValue) return currentGrid;
+      return currentGrid.map(cell => ({
+        ...cell,
+        isSameValueHighlighted: (cell.currentValue === currentValue && cell.id !== cellId)
+      }));
+    });
+  }
+
+  const handleNumberInput = (number) => {
+
+    const selectedCell = grid.find(cell => cell.id === selectedCellId);
+    if (selectedCell && selectedCell.initialValue) return;
+
+    setGrid(currentGrid => {
+      const newGrid = currentGrid.map(cell =>
+        cell.id === selectedCellId
+        ? {
+          ...cell,
+          currentValue: number,
+          isIncorrect: validateCell(selectedCellId, number),
+        } : cell
+      );
+      
+      if (number) {
+        highlightSameValues(selectedCell.id, number);
+      }
+
+      return newGrid;
+    })
+  };
+
+  const handleClearCell = () => {
+
+    const selectedCell = grid.find(cell => cell.id === selectedCellId);
+    if (selectedCell && selectedCell.initialValue) return;
+
+    setGrid(currentGrid => {
+      const newGrid = currentGrid.map(cell =>
+        cell.id === selectedCellId
+        ? {
+          ...cell,
+          currentValue: null,
+          isIncorrect: false,
+        } : cell
+      );
+      return newGrid;
+    });
+
+    setGrid(currentGrid => 
+      currentGrid.map(cell => ({
+        ...cell,
+        isSameValueHighlighted: false,
+      }))
+    );
+  };
+
+  if (!grid) return <div>Loading...</div>
+
+  return (
+    <div>
+      <Sudoku 
+        grid={grid}
+        onCellSelect={handleCellSelect}
+        highlightMates={highlightMates}
+        highlightSameValues={highlightSameValues}
+        clearHighlights={clearHighlights}
+      />
+      <Stopwatch />
+      <InputPad 
+        onInput={handleNumberInput}
+        onClear={handleClearCell}
+        hasSelection={!!selectedCellId}
+      />
+    </div>
+  )
 }
 
 export default App;

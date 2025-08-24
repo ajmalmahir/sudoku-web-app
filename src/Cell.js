@@ -4,64 +4,45 @@ const Cell = ({
   column,
   initialValue,
   currentValue,
-  isValid,
-  onValueChange,
-  cellMates,
-  isMateHighlighted,
-  isSameValueHighlighted,
+  onClick,
+  isIncorrect,
   highlightMates,
   highlightSameValues,
   clearHighlights,
-  onSelect,
-  isSelected,
+  isMateHighlighted,
+  isSameValueHighlighted,
 }) => {
-  const isPrefilled = initialValue !== null;
 
-  const handleKeyDown = (e) => {
-    if (isPrefilled) return;
-    if (/[1-9]/.test(e.key)) {
-      onValueChange(id, e.key)
-    } else if (e.key === "Backspace" || e.key === "Delete") {
-      onValueChange(id, null);
-    }
-  }
-
-  const handleClick= () => {
-    if (onSelect) onSelect(id);
-  }
+  const classList = [ 
+    'cell',
+    `row-${row}`,
+    `col-${column}`,
+    initialValue ? 'initial' : 'editable',
+    isIncorrect && 'incorrect',
+    isMateHighlighted && 'highlight-mates',
+    isSameValueHighlighted && 'highlight-mates',
+  ]
 
   const handleFocus = () => {
-    if (onSelect) onSelect(id);
-    highlightMates(cellMates);
+    onClick(id);
+    highlightMates(id);
     highlightSameValues(id, currentValue);
-  }
+  };
 
   const handleBlur = () => {
     clearHighlights();
   }
 
-  const classList = [
-    'cell',
-    `row-${row}`,
-    `col-${column}`,
-    isPrefilled ? 'prefilled' : 'editable',
-    isMateHighlighted && 'highlight-mates',
-    isSameValueHighlighted && 'highlight-same',
-    !isValid && 'invalid',
-    isSelected && 'selected',
-  ]
   return (
-    <div 
-      className={classList.join(' ').trim()} 
-      onKeyDown={handleKeyDown}
+    <div
+      className={classList.join(' ').trim()}
+      tabIndex="0"
       onFocus={handleFocus}
       onBlur={handleBlur}
-      onClick={handleClick}
-      tabIndex="0"
     >
-      <span>{currentValue}</span>
+      {currentValue || initialValue}
     </div>
-  )
+  );
 }
 
 export default Cell;
