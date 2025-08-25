@@ -1,4 +1,4 @@
-const InputPad = ({ onInput, onClear, hasSelection }) => (
+const InputPad = ({ onInput, onClear }) => (
   <div className="input-pad">
     <div className="pad-grid">
       {[1,2,3,4,5,6,7,8,9].map((value) => (

@@ -20,10 +20,22 @@ body {
 .sudoku-board {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(9, 1fr);
   width: min(90vmin, 600px);
+  height: min(90vmin, 600px);
   aspect-ratio: 1 / 1;
   margin: auto;
   border: solid 4px var(--foreground);
+}
+
+.paused-message {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: var(--foreground);
 }
 
 .cell {
@@ -32,6 +44,8 @@ body {
   justify-content: center;
   align-items: center;
   font-size: clamp(2rem, 5vmin, 4rem);
+  box-sizing: border-box;
+  min-height: 0;
 }
 
 .cell.col-3, .cell.col-6 { border-right-width: 4px; }

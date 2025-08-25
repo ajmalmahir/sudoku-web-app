@@ -12,6 +12,7 @@ function App() {
   const solution = createGrid(sudokuPuzzles.easy[0].solution);
 
   const [selectedCellId, setSelectedCellId] = useState(null);
+  const [isPaused, setIsPaused] = useState(false);
   const [grid, setGrid] = useState(
     () => createGrid(puzzle).map(cell => ({
       ...cell,
@@ -25,6 +26,11 @@ function App() {
     setSelectedCellId(cellId);
   };
 
+  const togglePause = () => {
+    setIsPaused(!isPaused);
+    setSelectedCellId(null);
+  }
+
   const solutionMap = useMemo(() => {
     return solution.reduce((map, cell) => {
       map[cell.id] = cell.initialValue
@@ -33,7 +39,7 @@ function App() {
   }, [solution])
 
   const validateCell = (cellId, value) => {
-    if (value == null) return null; // not answered yet
+    if (value == null) return null;
     return solutionMap[cellId] !== value;
   }
 
@@ -69,6 +75,7 @@ function App() {
 
   const handleNumberInput = (number) => {
 
+    if (!selectedCellId) return;
     const selectedCell = grid.find(cell => cell.id === selectedCellId);
     if (selectedCell && selectedCell.initialValue) return;
 
@@ -92,6 +99,7 @@ function App() {
 
   const handleClearCell = () => {
 
+    if (!selectedCellId) return;
     const selectedCell = grid.find(cell => cell.id === selectedCellId);
     if (selectedCell && selectedCell.initialValue) return;
 
@@ -125,12 +133,13 @@ function App() {
         highlightMates={highlightMates}
         highlightSameValues={highlightSameValues}
         clearHighlights={clearHighlights}
+        isPaused={isPaused}
+        onTogglePause={togglePause}
       />
-      <Stopwatch />
+      <Stopwatch isPaused={isPaused} onTogglePause={togglePause} />
       <InputPad 
         onInput={handleNumberInput}
         onClear={handleClearCell}
-        hasSelection={!!selectedCellId}
       />
     </div>
   )
