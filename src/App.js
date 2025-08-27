@@ -2,7 +2,7 @@ import './App.css';
 import Sudoku from './Sudoku'
 import Stopwatch from './Stopwatch';
 import InputPad from './InputPad';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { sudokuPuzzles } from './SudokuPuzzles';
 import { findCellMates, createGrid } from './utils';
 
@@ -13,14 +13,24 @@ function App() {
 
   const [selectedCellId, setSelectedCellId] = useState(null);
   const [isPaused, setIsPaused] = useState(false);
-  const [grid, setGrid] = useState(
-    () => createGrid(puzzle).map(cell => ({
+  const [grid, setGrid] = useState(() => {
+
+    const savedGrid = localStorage.getItem('sudoku-grid');
+    if (savedGrid) {
+      return JSON.parse(savedGrid);
+    }
+
+    return createGrid(puzzle).map(cell => ({
       ...cell,
       isIncorrect: false,
       isMateHighlighted: false,
       isSameValueHighlighted: false,
-    }))
-  );
+    }));
+  });
+
+  useEffect(() => {
+    localStorage.setItem('sudoku-grid', JSON.stringify(grid));
+  }, [grid]);
 
   const handleCellSelect = (cellId) => {
     setSelectedCellId(cellId);

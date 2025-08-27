@@ -16,7 +16,7 @@ const InputPad = ({ onInput, onClear }) => (
         onClick={onClear}
         onMouseDown={(e) => e.preventDefault()}
       >
-        Clear
+        clear
       </button>
     </div>
   </div>
