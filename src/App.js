@@ -14,10 +14,10 @@ function App() {
   const [selectedCellId, setSelectedCellId] = useState(null);
   const [isPaused, setIsPaused] = useState(false);
   const [grid, setGrid] = useState(() => {
-
-    const savedGrid = localStorage.getItem('sudoku-grid');
+    const savedGrid = localStorage.getItem('boring-sudoku-game-state');
     if (savedGrid) {
-      return JSON.parse(savedGrid);
+      const { grid } = JSON.parse(savedGrid);
+      return grid;
     }
 
     return createGrid(puzzle).map(cell => ({
@@ -29,7 +29,12 @@ function App() {
   });
 
   useEffect(() => {
-    localStorage.setItem('sudoku-grid', JSON.stringify(grid));
+    const gameState = {
+      grid,
+      puzzleId: 'easy-0',
+      difficulty: 'easy',
+    }
+    localStorage.setItem('boring-sudoku-game-state', JSON.stringify(gameState));
   }, [grid]);
 
   const handleCellSelect = (cellId) => {
