@@ -13,8 +13,18 @@ function App() {
 
   const [selectedCellId, setSelectedCellId] = useState(null);
   const [isPaused, setIsPaused] = useState(false);
+
+  const [elapsedTime, setElapsedTime] = useState(() => {
+    const savedGame = localStorage.getItem('boring-sudoku-game-state-v1');
+    if (savedGame) {
+      const { time } = JSON.parse(savedGame);
+      return time || 0;
+    }
+    return 0;
+  });
+
   const [grid, setGrid] = useState(() => {
-    const savedGrid = localStorage.getItem('boring-sudoku-game-state');
+    const savedGrid = localStorage.getItem('boring-sudoku-game-state-v1');
     if (savedGrid) {
       const { grid } = JSON.parse(savedGrid);
       return grid;
@@ -31,11 +41,10 @@ function App() {
   useEffect(() => {
     const gameState = {
       grid,
-      puzzleId: 'easy-0',
-      difficulty: 'easy',
+      time: elapsedTime,
     }
-    localStorage.setItem('boring-sudoku-game-state', JSON.stringify(gameState));
-  }, [grid]);
+    localStorage.setItem('boring-sudoku-game-state-v1', JSON.stringify(gameState));
+  }, [grid, elapsedTime]);
 
   const handleCellSelect = (cellId) => {
     setSelectedCellId(cellId);
@@ -151,7 +160,12 @@ function App() {
         isPaused={isPaused}
         onTogglePause={togglePause}
       />
-      <Stopwatch isPaused={isPaused} onTogglePause={togglePause} />
+      <Stopwatch 
+        isPaused={isPaused} 
+        onTogglePause={togglePause} 
+        initialTime={elapsedTime}
+        onTimeUpdate={setElapsedTime}
+      />
       <InputPad 
         onInput={handleNumberInput}
         onClear={handleClearCell}

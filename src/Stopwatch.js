@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 
-export default function Stopwatch({ isPaused, onTogglePause }) {
-  const [elapsed, setElapsed] = useState(0)
+export default function Stopwatch({ isPaused, onTogglePause, initialTime = 0, onTimeUpdate }) {
+  const [elapsed, setElapsed] = useState(initialTime);
 
   useEffect(() => {
     if (isPaused) return;
-
     const start = Date.now() - elapsed;
-    const id = setInterval(() => setElapsed(Date.now() - start), 100);
+    const id = setInterval(() => {
+      const newElapsed = Date.now() - start;
+      setElapsed(newElapsed);
+      onTimeUpdate(newElapsed);
+    }, 100);
     return () => clearInterval(id);
-  }, [isPaused, elapsed]);
+  }, [isPaused, elapsed, onTimeUpdate]);
 
   const time = new Date(elapsed).toISOString().slice(11, 19);
 
