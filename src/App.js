@@ -13,6 +13,7 @@ function App() {
 
   const [selectedCellId, setSelectedCellId] = useState(null);
   const [isPaused, setIsPaused] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
 
   const [elapsedTime, setElapsedTime] = useState(() => {
     const savedGame = localStorage.getItem('boring-sudoku-game-state-v1');
@@ -51,6 +52,7 @@ function App() {
   };
 
   const togglePause = () => {
+    if (isComplete) return;
     setIsPaused(!isPaused);
     setSelectedCellId(null);
   }
@@ -65,6 +67,12 @@ function App() {
   const validateCell = (cellId, value) => {
     if (value == null) return null;
     return solutionMap[cellId] !== value;
+  }
+
+  const checkCompletion = (currentGrid) => {
+    const allFilled = currentGrid.every(cell => cell.currentValue !== null);
+    const noErrors = currentGrid.every(cell => !cell.isIncorrect);
+    return allFilled && noErrors;
   }
 
   const highlightMates = (cellId) => {
@@ -117,6 +125,11 @@ function App() {
         highlightSameValues(selectedCell.id, number);
       }
 
+      if (checkCompletion(newGrid)) {
+        setIsComplete(true);
+        setIsPaused(true);
+      }
+
       return newGrid;
     })
   };
@@ -159,6 +172,7 @@ function App() {
         clearHighlights={clearHighlights}
         isPaused={isPaused}
         onTogglePause={togglePause}
+        isComplete={isComplete}
       />
       <Stopwatch 
         isPaused={isPaused} 

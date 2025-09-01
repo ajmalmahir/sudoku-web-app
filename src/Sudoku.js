@@ -8,11 +8,12 @@ const Sudoku = ({
   clearHighlights,
   isPaused,
   onTogglePause,
+  isComplete
 }) => {
 
   return (
     <div className='sudoku-board'>
-      {isPaused ? (
+      {isPaused && !isComplete ? (
         <div className='paused-message'>
           game paused -
           <span onClick={onTogglePause} style={{ cursor: 'pointer' }}>&nbsp;continue&nbsp;
