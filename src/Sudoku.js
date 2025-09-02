@@ -35,6 +35,7 @@ const Sudoku = ({
             highlightMates={highlightMates}
             highlightSameValues={highlightSameValues}
             clearHighlights={clearHighlights}
+            isComplete={isComplete}
           />
         ))
       )}

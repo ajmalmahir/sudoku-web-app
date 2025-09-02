@@ -11,6 +11,7 @@ const Cell = ({
   clearHighlights,
   isMateHighlighted,
   isSameValueHighlighted,
+  isComplete,
 }) => {
 
   const classList = [ 
@@ -21,6 +22,7 @@ const Cell = ({
     isIncorrect && 'incorrect',
     isMateHighlighted && 'highlight-mates',
     isSameValueHighlighted && 'highlight-mates',
+    isComplete && 'complete-wave',
   ]
 
   const handleFocus = () => {
@@ -33,12 +35,17 @@ const Cell = ({
     clearHighlights();
   }
 
+  const animationStyle = isComplete ? {
+    animationDelay: `${(row - 1 + column - 1) * 0.08}s`
+  } : {};
+
   return (
     <div
       className={classList.join(' ').trim()}
       tabIndex="0"
       onFocus={handleFocus}
       onBlur={handleBlur}
+      style={animationStyle}
     >
       {currentValue || initialValue}
     </div>

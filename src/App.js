@@ -126,6 +126,7 @@ function App() {
       }
 
       if (checkCompletion(newGrid)) {
+        setSelectedCellId(null);
         setIsComplete(true);
         setIsPaused(true);
       }
