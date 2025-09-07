@@ -150,27 +150,31 @@ function App() {
   if (!grid) return <div>Loading...</div>
 
   return (
-    <div>
-      <Sudoku 
-        grid={grid}
-        onCellSelect={handleCellSelect}
-        highlightMates={highlightMates}
-        highlightSameValues={highlightSameValues}
-        clearHighlights={clearHighlights}
-        isPaused={isPaused}
-        onTogglePause={togglePause}
-      />
-      <Stopwatch 
-        isPaused={isPaused} 
-        onTogglePause={togglePause} 
-        initialTime={elapsedTime}
-        onTimeUpdate={setElapsedTime}
-      />
-      <InputPad 
-        onInput={handleNumberInput}
-        onClear={handleClearCell}
-      />
-    </div>
+    <>
+      <div className='app-container'>
+        <div className='board-and-stopwatch'>
+          <Sudoku 
+            grid={grid}
+            onCellSelect={handleCellSelect}
+            highlightMates={highlightMates}
+            highlightSameValues={highlightSameValues}
+            clearHighlights={clearHighlights}
+            isPaused={isPaused}
+            onTogglePause={togglePause}
+          />
+          <Stopwatch 
+            isPaused={isPaused} 
+            onTogglePause={togglePause} 
+            initialTime={elapsedTime}
+            onTimeUpdate={setElapsedTime}
+          />
+        </div>
+        <InputPad 
+          onInput={handleNumberInput}
+          onClear={handleClearCell}
+        />
+      </div>
+    </>
   )
 }
 

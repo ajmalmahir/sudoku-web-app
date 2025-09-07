@@ -6,15 +6,25 @@
 
 /* global styling */
 body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
   font-family: 'Space Mono', monospace;
   background: var(--background);
   color: var(--foreground);
-  margin: 0;
 }
+
+/* app container */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* .board-and-stopwatch {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+} */
 
 /* sudoku board and cells */
 .sudoku-board {
@@ -24,7 +34,6 @@ body {
   width: min(90vmin, 600px);
   height: min(90vmin, 600px);
   aspect-ratio: 1 / 1;
-  margin: auto;
   border: solid 4px var(--foreground);
 }
 
@@ -72,8 +81,6 @@ body {
 .input-pad {
   width: min(40vmin, 200px);
   box-sizing: border-box;
-  padding: 6px;
-  margin: 12px auto;
 }
 
 .pad-grid {
