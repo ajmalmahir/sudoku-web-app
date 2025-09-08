@@ -11,13 +11,38 @@ body {
   color: var(--foreground);
 }
 
+/* container for the elements inside the page */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* navbar */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  background-color: var(--background);
+  border-bottom: 2px solid var(--foreground);
+}
+
+.navbar-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-family: 'Space Mono' monospace;
+  font-weight: normal;
+  color: var(--foreground);
+}
+
 /* app container */
 .app-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  height: 100%;
 }
 
 /* .board-and-stopwatch {
