@@ -36,6 +36,20 @@ body {
   color: var(--foreground);
 }
 
+.reset-button {
+  font-family: 'Space Mono' monospace;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--background);
+  color: var(--foreground);
+  border: 2px solid var(--foreground);
+}
+
+.reset-button:hover {
+  background-color: var(--foreground);
+  color: var(--background);
+}
+
 /* app container */
 .app-container {
   display: flex;

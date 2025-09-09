@@ -4,6 +4,10 @@ export default function Stopwatch({ isPaused, onTogglePause, initialTime = 0, on
   const [elapsed, setElapsed] = useState(initialTime);
 
   useEffect(() => {
+    setElapsed(initialTime);
+  }, [initialTime])
+
+  useEffect(() => {
     if (isPaused) return;
     const start = Date.now() - elapsed;
     const id = setInterval(() => {

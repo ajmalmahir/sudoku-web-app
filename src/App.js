@@ -147,6 +147,19 @@ function App() {
     );
   };
 
+  const handleReset = () => {
+    localStorage.removeItem('boring-sudoku-game-state-v1');
+    setGrid(createGrid(puzzle).map(cell => ({
+      ...cell,
+      isIncorrect: false,
+      isMateHighlighted: false,
+      isSameValueHighlighted: false,
+    })));
+    setElapsedTime(0);
+    setSelectedCellId(null);
+    setIsPaused(false);
+  }
+
   if (!grid) return <div>Loading...</div>
 
   return (
@@ -154,6 +167,7 @@ function App() {
       <div className='page-container'>
         <nav className='navbar'>
           <span className='navbar-title'>sudoku</span>
+          <button className='reset-button' onClick={handleReset}>reset</button>
         </nav>
         <div className='app-container'>
           <div className='board-and-stopwatch'>
