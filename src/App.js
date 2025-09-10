@@ -160,6 +160,17 @@ function App() {
     setIsPaused(false);
   }
 
+  const testFetch = async () => {
+    try {
+      const response = await fetch("https://sudoku-api.vercel.app/api/dosuku");
+      const data = await response.json();
+      console.log(data['newboard']['grids'][0]['solution'])
+      console.log(data['newboard']['grids'][0]['solution'])
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   if (!grid) return <div>Loading...</div>
 
   return (
